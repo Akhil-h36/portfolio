@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akhil H — Full Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111010;
+  --paper: #f7f4ef;
+  --off: #edeae3;
+  --muted: #a09e98;
+  --accent: #c85a2a;
+  --accent2: #2a4fc8;
+  --green: #2a7a3c;
+  --line: rgba(17,16,16,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Geist', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s; }
+.cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--ink); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform .12s ease, width .25s, height .25s, opacity .25s; opacity: .5; }
+body:hover .cursor { opacity: 1; }
+.cursor.hover { width: 20px; height: 20px; background: var(--accent2); }
+.cursor-ring.hover { width: 60px; height: 60px; opacity: .2; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(247,244,239,0.92);
+  backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: 0.12em;
+  color: var(--ink); text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; color: var(--muted); transition: color .2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-index {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em;
+}
+
+/* MARQUEE STRIP */
+.marquee-strip {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: var(--ink); color: var(--paper);
+  height: 32px; overflow: hidden;
+  display: flex; align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.marquee-track {
+  display: flex; gap: 0; white-space: nowrap;
+  animation: marquee 22s linear infinite;
+}
+.marquee-track span {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 0 3rem; color: var(--muted);
+}
+.marquee-track span b { color: var(--accent); font-weight: 400; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* SECTIONS */
+section { padding: 120px 3rem 80px; position: relative; }
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* RULE LINES */
+.h-rule { width: 100%; height: 1px; background: var(--line); margin: 3rem 0; }
+.v-rule { width: 1px; background: var(--line); }
+
+/* LABEL TAG */
+.tag {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--line);
+  padding: 0.3rem 0.75rem; border-radius: 100px;
+}
+
+/* ─── HERO ─── */
+#home {
+  min-height: 100vh;
+  padding-top: 80px;
+  display: flex; align-items: center;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.hero-inner { width: 100%; max-width: 1200px; margin: 0 auto; }
+
+.hero-toprow {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 2rem;
+}
+.hero-status {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.1em; color: var(--green);
+}
+.hero-status::before { content: ''; display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.hero-coords {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem; color: var(--muted); letter-spacing: 0.06em; text-align: right;
+}
+
+/* BIG TYPE */
+.hero-bigtype {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 14vw, 13rem);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  position: relative;
+}
+.hero-bigtype .line2 { color: transparent; -webkit-text-stroke: 2px var(--ink); padding-left: 8vw; }
+.hero-bigtype .line3 { color: var(--accent); display: block; }
+
+/* Photo inset */
+.hero-photo-inset {
+  display: inline-block; position: relative;
+  width: clamp(130px, 16vw, 200px); height: clamp(90px, 11vw, 140px);
+  border-radius: 6px; overflow: hidden;
+  vertical-align: middle; margin: 0 1rem;
+  background: var(--off);
+  border: 1px solid var(--line);
+}
+.hero-photo-inset img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.hero-photo-inset .ph {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Geist Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: center; padding: 0.5rem;
+}
+
+.hero-bottom {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line);
+}
+.hero-desc {
+  max-width: 380px;
+  font-size: 0.9rem; line-height: 1.7; color: var(--muted); font-weight: 300;
+}
+.hero-ctas { display: flex; gap: 1rem; align-items: center; }
+.btn-fill {
+  display: inline-block; padding: 0.85rem 2.2rem;
+  background: var(--ink); color: var(--paper);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none; border: 1px solid var(--ink);
+  transition: all .25s;
+}
+.btn-fill:hover { background: var(--accent); border-color: var(--accent); }
+.btn-ghost {
+  display: inline-block; padding: 0.85rem 2.2rem;
+  background: transparent; color: var(--ink);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none; border: 1px solid var(--ink);
+  transition: all .25s;
+}
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+/* ─── ABOUT ─── */
+#about { background: var(--ink); color: var(--paper); border-bottom: 1px solid rgba(255,255,255,0.08); }
+#about .tag { color: rgba(247,244,239,0.35); border-color: rgba(247,244,239,0.12); }
+#about .h-rule { background: rgba(247,244,239,0.08); }
+
+.about-grid {
+  display: grid; grid-template-columns: 1fr 2fr;
+  gap: 6rem; align-items: start;
+  margin-top: 3rem;
+}
+.about-left { position: sticky; top: 100px; }
+.about-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(6rem, 12vw, 10rem);
+  line-height: 1; color: transparent;
+  -webkit-text-stroke: 1px rgba(247,244,239,0.15);
+  margin-bottom: 2rem;
+}
+.about-photo-block {
+  width: 100%; aspect-ratio: 3/4; border-radius: 4px; overflow: hidden;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+}
+.about-photo-block img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.about-photo-block .ph { font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: rgba(247,244,239,0.25); text-align: center; padding: 1rem; }
+
+.about-right { padding-top: 1rem; }
+.about-headline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300; line-height: 1.2;
+  color: var(--paper);
+  margin-bottom: 2.5rem;
+}
+.about-headline em { font-style: italic; color: rgba(247,244,239,0.45); }
+.about-body p {
+  font-size: 1rem; line-height: 1.85; font-weight: 300;
+  color: rgba(247,244,239,0.6);
+  margin-bottom: 1.4rem;
+}
+.about-body p strong { color: var(--paper); font-weight: 400; }
+.about-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  margin-top: 3rem; border: 1px solid rgba(255,255,255,0.08);
+}
+.stat-box {
+  padding: 1.8rem 1.5rem; border-right: 1px solid rgba(255,255,255,0.08);
+}
+.stat-box:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem; line-height: 1; color: var(--paper);
+  margin-bottom: 0.3rem;
+}
+.stat-label { font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: rgba(247,244,239,0.3); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ─── EDUCATION ─── */
+#education { border-bottom: 1px solid var(--line); }
+.edu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+.section-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; letter-spacing: 0.02em;
+  color: var(--ink);
+}
+.section-big span { color: var(--accent); }
+.edu-items { display: flex; flex-direction: column; }
+.edu-item {
+  display: grid; grid-template-columns: 120px 1fr auto;
+  gap: 3rem; align-items: start;
+  padding: 2.5rem 0; border-bottom: 1px solid var(--line);
+  transition: background .3s;
+}
+.edu-item:first-child { border-top: 1px solid var(--line); }
+.edu-item:hover { padding-left: 1rem; background: rgba(17,16,16,0.02); }
+.edu-year-col {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em;
+  padding-top: 0.25rem;
+}
+.edu-main-col {}
+.edu-degree {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem; font-weight: 400; margin-bottom: 0.4rem;
+}
+.edu-school { font-size: 0.88rem; color: var(--muted); font-weight: 300; margin-bottom: 0.8rem; }
+.edu-desc { font-size: 0.85rem; line-height: 1.7; color: var(--muted); font-weight: 300; max-width: 560px; }
+.edu-badge-col { display: flex; align-items: flex-start; }
+.edu-badge {
+  padding: 0.4rem 1rem; background: var(--off);
+  font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+/* ─── SKILLS ─── */
+#skills { background: var(--off); border-bottom: 1px solid var(--line); }
+.skills-header { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-bottom: 4rem; align-items: end; }
+.skills-intro { font-size: 0.9rem; line-height: 1.8; color: var(--muted); font-weight: 300; }
+.skills-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.skill-cell {
+  background: var(--off); padding: 2rem 1.8rem;
+  transition: background .3s, transform .3s;
+  position: relative; overflow: hidden;
+}
+.skill-cell:hover { background: var(--paper); }
+.skill-cell::before {
+  content: attr(data-num);
+  position: absolute; top: 1rem; right: 1.2rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem; color: rgba(17,16,16,0.04);
+  line-height: 1; pointer-events: none;
+}
+.skill-cat {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1rem;
+}
+.skill-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.3;
+}
+.skill-list {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.skill-token {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.04em;
+  color: var(--muted); background: rgba(17,16,16,0.05);
+  padding: 0.25rem 0.6rem; border-radius: 2px;
+  transition: color .2s, background .2s;
+}
+.skill-cell:hover .skill-token { background: rgba(17,16,16,0.08); }
+
+/* ─── WORKS ─── */
+#works { border-bottom: 1px solid var(--line); }
+.works-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+.works-count { font-family: 'Geist Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+.works-list { display: flex; flex-direction: column; gap: 0; }
+.work-item {
+  display: grid; grid-template-columns: 300px 1fr auto;
+  gap: 4rem; align-items: center;
+  padding: 2.8rem 0; border-bottom: 1px solid var(--line);
+  transition: all .3s;
+  text-decoration: none; color: inherit;
+}
+.work-item:first-child { border-top: 1px solid var(--line); }
+.work-item:hover { padding-left: 1.5rem; background: rgba(200,90,42,0.03); }
+
+.work-thumb {
+  width: 300px; height: 180px; overflow: hidden;
+  background: var(--off); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative;
+}
+.work-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+.work-thumb .ph {
+  font-family: 'Geist Mono', monospace; font-size: 0.62rem; color: var(--muted); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.work-thumb .ph-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem; color: rgba(17,16,16,0.08); line-height: 1;
+}
+.work-thumb-overlay {
+  position: absolute; inset: 0; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .3s;
+}
+.work-item:hover .work-thumb-overlay { opacity: 0.85; }
+.work-thumb-overlay span {
+  font-family: 'Geist Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--paper);
+}
+
+.work-info {}
+.work-cats { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.work-cat {
+  font-family: 'Geist Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.work-cat + .work-cat::before { content: '·'; margin-right: 0.5rem; }
+.work-title-big {
+  font-family: 'Fraunces', serif;
+  font-size: 1.7rem; font-weight: 400; line-height: 1.2;
+  margin-bottom: 0.8rem; transition: color .3s;
+}
+.work-item:hover .work-title-big { color: var(--accent); }
+.work-desc { font-size: 0.85rem; line-height: 1.7; color: var(--muted); font-weight: 300; max-width: 440px; }
+.work-arrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1.5rem; color: var(--line); transition: color .3s, transform .3s;
+  flex-shrink: 0;
+}
+.work-item:hover .work-arrow { color: var(--accent); transform: translateX(6px); }
+
+/* ─── CONTACT ─── */
+#contact { padding-bottom: 120px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: start; margin-top: 4rem; }
+.contact-headline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.2; margin-bottom: 2rem;
+}
+.contact-headline em { font-style: italic; color: var(--muted); }
+.contact-blurb { font-size: 0.9rem; line-height: 1.8; color: var(--muted); font-weight: 300; margin-bottom: 2.5rem; }
+.contact-list { display: flex; flex-direction: column; gap: 0; }
+.contact-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 0; border-bottom: 1px solid var(--line);
+  text-decoration: none; color: var(--ink); transition: padding-left .25s;
+}
+.contact-row:first-child { border-top: 1px solid var(--line); }
+.contact-row:hover { padding-left: 1rem; }
+.contact-row-label { font-family: 'Geist Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); min-width: 90px; }
+.contact-row-val { font-size: 0.92rem; color: var(--ink); font-weight: 300; }
+.contact-row-arr { color: var(--muted); font-size: 1rem; transition: transform .25s; }
+.contact-row:hover .contact-row-arr { transform: translateX(5px); color: var(--accent); }
+
+/* FORM */
+.form-wrap { padding: 2.5rem; border: 1px solid var(--line); background: var(--off); }
+.form-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem; font-weight: 400; margin-bottom: 2rem;
+}
+.form-field { margin-bottom: 1.4rem; }
+.form-field label {
+  display: block; font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem;
+}
+.form-field input, .form-field textarea {
+  width: 100%; padding: 0.85rem 1rem;
+  background: var(--paper); border: 1px solid var(--line);
+  font-family: 'Geist', sans-serif; font-size: 0.9rem; color: var(--ink);
+  outline: none; transition: border-color .2s;
+  border-radius: 0;
+}
+.form-field input:focus, .form-field textarea:focus { border-color: var(--ink); }
+.form-field textarea { min-height: 120px; resize: vertical; }
+.form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.form-status { font-family: 'Geist Mono', monospace; font-size: 0.72rem; padding: 0.8rem; margin-top: 1rem; display: none; }
+.form-status.ok { background: rgba(42,122,60,0.08); color: var(--green); border: 1px solid rgba(42,122,60,0.2); display: block; }
+.form-status.err { background: rgba(200,90,42,0.08); color: var(--accent); border: 1px solid rgba(200,90,42,0.2); display: block; }
+
+/* FOOTER */
+footer {
+  background: var(--ink); color: var(--paper);
+  padding: 2rem 3rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.12em; }
+.footer-copy { font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: rgba(247,244,239,0.3); letter-spacing: 0.08em; }
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,244,239,0.35); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--paper); }
+
+/* SCROLL REVEAL */
+.sr { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+.sr.in { opacity: 1; transform: none; }
+.sr-delay-1 { transition-delay: .1s; }
+.sr-delay-2 { transition-delay: .2s; }
+.sr-delay-3 { transition-delay: .3s; }
+
+/* MOBILE */
+@media (max-width: 900px) {
+  nav { padding: 0 1.5rem; }
+  section { padding: 100px 1.5rem 60px; }
+  .hero-bigtype .line2 { padding-left: 4vw; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .about-left { position: static; }
+  .about-stats { grid-template-columns: 1fr 1fr 1fr; }
+  .edu-item { grid-template-columns: 1fr; gap: 0.8rem; }
+  .skills-board { grid-template-columns: repeat(2, 1fr); }
+  .skills-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .work-item { grid-template-columns: 1fr; gap: 1.5rem; }
+  .work-thumb { width: 100%; }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  footer { flex-direction: column; gap: 1.2rem; text-align: center; }
+  .nav-links { display: none; }
+  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto; }
+  .hero-bottom { flex-direction: column; gap: 2rem; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  .skills-board { grid-template-columns: 1fr; }
+  .form-row2 { grid-template-columns: 1fr; }
+  .about-stats { grid-template-columns: 1fr; }
+  .stat-box { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">AKH<span>I</span>L</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-index" id="sectionIndex">01 / HOME</div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>Full Stack Developer</span>
+    <span><b>·</b></span>
+    <span>Python · Django · React</span>
+    <span><b>·</b></span>
+    <span>AWS EC2 · Docker · NGINX</span>
+    <span><b>·</b></span>
+    <span>OpenAI API Integration</span>
+    <span><b>·</b></span>
+    <span>REST APIs · WebSockets</span>
+    <span><b>·</b></span>
+    <span>Kerala, India</span>
+    <span><b>·</b></span>
+    <span>Full Stack Developer</span>
+    <span><b>·</b></span>
+    <span>Python · Django · React</span>
+    <span><b>·</b></span>
+    <span>AWS EC2 · Docker · NGINX</span>
+    <span><b>·</b></span>
+    <span>OpenAI API Integration</span>
+    <span><b>·</b></span>
+    <span>REST APIs · WebSockets</span>
+    <span><b>·</b></span>
+    <span>Kerala, India</span>
+    <span><b>·</b></span>
+  </div>
+</div>
+
+<!-- ─── HOME ─── -->
+<section id="home">
+  <div class="hero-inner">
+    <div class="hero-toprow sr">
+      <div class="hero-status">Available for hire</div>
+      <div class="hero-coords">10.8505° N, 76.2711° E&nbsp;&nbsp;|&nbsp;&nbsp;Kerala, India</div>
+    </div>
+
+    <div class="hero-bigtype sr sr-delay-1">
+      <div class="line1">FULL</div>
+      <div class="line2">STACK</div>
+      <div class="line3">DEV</div>
+    </div>
+
+    <div class="hero-bottom sr sr-delay-2">
+      <p class="hero-desc">Building scalable cloud-native web apps with Python, Django &amp; React. Specialised in AI integration, REST APIs, and end-to-end cloud deployment on AWS.</p>
+      <div class="hero-ctas">
+        <a href="#works" class="btn-fill">See My Work →</a>
+        <a href="#contact" class="btn-ghost">Say Hello</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="container">
+    <div class="tag">01 — About</div>
+    <div class="h-rule"></div>
+    <div class="about-grid">
+      <div class="about-left sr">
+        <div class="about-num">AH</div>
+        <div class="about-photo-block">
+          <img id="aboutImg" src="mypic.jpeg" alt="Akhil H">
+          <div class="ph">
+            <span style="font-size:2rem;opacity:.15">📸</span><br>
+            Add your portrait here<br>
+            <span style="opacity:.4">Set src on #aboutImg</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-right sr sr-delay-1">
+        <div class="about-headline">
+          A developer who<br>thinks in <em>systems</em><br>and builds in code.
+        </div>
+        <div class="about-body">
+          <p>I'm Akhil — a Full Stack Developer with a B.Tech in <strong>Robotics & Automation</strong>, now building production-grade web applications. That engineering background gives me a different lens: I approach software like systems design — every component has a purpose, every abstraction earns its keep.</p>
+          <p>My stack is <strong>Python / Django</strong> on the backend and <strong>React</strong> on the front. I've shipped an AI-powered e-commerce platform live on AWS, built real-time messaging systems with WebSockets and Django Channels, and integrated GPT into consumer-facing products.</p>
+          <p>I care about the intersection of performance, clarity, and craft. Not just code that works — code that holds up under scale, reads cleanly, and deploys without drama.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-box">
+            <div class="stat-num">4+</div>
+            <div class="stat-label">Projects shipped</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">2+</div>
+            <div class="stat-label">Years building</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Curiosity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EDUCATION ─── -->
+<section id="education">
+  <div class="container">
+    <div class="edu-header sr">
+      <div class="section-big">EDU<span>–</span><br>CATION</div>
+      <div class="tag">02 — Academic Background</div>
+    </div>
+    <div class="edu-items">
+      <div class="edu-item sr">
+        <div class="edu-year-col">2024<br>— Present</div>
+        <div class="edu-main-col">
+          <div class="edu-degree">Full Stack Python Development</div>
+          <div class="edu-school">Brototype, Bangalore · Django Specialization</div>
+          <div class="edu-desc">Intensive immersive program covering end-to-end web engineering — Django REST APIs, React, PostgreSQL, Redis, Docker, AWS deployment, and real-world project delivery under agile methodology.</div>
+        </div>
+        <div class="edu-badge-col">
+          <div class="edu-badge">In Progress</div>
+        </div>
+      </div>
+      <div class="edu-item sr sr-delay-1">
+        <div class="edu-year-col">2020<br>— 2024</div>
+        <div class="edu-main-col">
+          <div class="edu-degree">B.Tech — Robotics & Automation</div>
+          <div class="edu-school">Rajadhani Institute of Engineering & Technology, Trivandrum</div>
+          <div class="edu-desc">Four-year Bachelor of Technology with focus on robotics systems, automation engineering, and embedded programming — building a strong analytical and systems-thinking foundation for software development.</div>
+        </div>
+        <div class="edu-badge-col">
+          <div class="edu-badge">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="container">
+    <div class="skills-header sr">
+      <div class="section-big">SKILL<span style="color:var(--accent)">S</span></div>
+      <div>
+        <div class="tag" style="margin-bottom:1rem">03 — Technical Arsenal</div>
+        <p class="skills-intro">A curated toolkit built through real production work — not just tutorials. Every item on this list has shipped to a live environment.</p>
+      </div>
+    </div>
+    <div class="skills-board">
+      <div class="skill-cell sr" data-num="01">
+        <div class="skill-cat">Backend</div>
+        <div class="skill-name">Server &amp;<br>APIs</div>
+        <div class="skill-list">
+          <span class="skill-token">Python</span>
+          <span class="skill-token">Django</span>
+          <span class="skill-token">DRF</span>
+          <span class="skill-token">Flask</span>
+          <span class="skill-token">REST APIs</span>
+          <span class="skill-token">WebSockets</span>
+          <span class="skill-token">Django Channels</span>
+          <span class="skill-token">Redis</span>
+          <span class="skill-token">JWT Auth</span>
+        </div>
+      </div>
+      <div class="skill-cell sr sr-delay-1" data-num="02">
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-name">UI &amp;<br>Interfaces</div>
+        <div class="skill-list">
+          <span class="skill-token">React.js</span>
+          <span class="skill-token">Next.js</span>
+          <span class="skill-token">Redux Toolkit</span>
+          <span class="skill-token">JavaScript ES6+</span>
+          <span class="skill-token">HTML5</span>
+          <span class="skill-token">CSS3</span>
+          <span class="skill-token">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-cell sr sr-delay-2" data-num="03">
+        <div class="skill-cat">Database</div>
+        <div class="skill-name">Data &amp;<br>Persistence</div>
+        <div class="skill-list">
+          <span class="skill-token">PostgreSQL</span>
+          <span class="skill-token">MySQL</span>
+          <span class="skill-token">SQLite</span>
+          <span class="skill-token">MongoDB</span>
+          <span class="skill-token">Firebase Firestore</span>
+        </div>
+      </div>
+      <div class="skill-cell sr sr-delay-3" data-num="04">
+        <div class="skill-cat">Cloud</div>
+        <div class="skill-name">Infra &amp;<br>DevOps</div>
+        <div class="skill-list">
+          <span class="skill-token">AWS EC2</span>
+          <span class="skill-token">Docker</span>
+          <span class="skill-token">NGINX</span>
+          <span class="skill-token">Firebase</span>
+          <span class="skill-token">Git</span>
+          <span class="skill-token">GitHub</span>
+        </div>
+      </div>
+      <div class="skill-cell sr" data-num="05">
+        <div class="skill-cat">AI / Integrations</div>
+        <div class="skill-name">External<br>APIs</div>
+        <div class="skill-list">
+          <span class="skill-token">OpenAI API</span>
+          <span class="skill-token">TMDb API</span>
+          <span class="skill-token">Razorpay</span>
+          <span class="skill-token">Google OAuth</span>
+          <span class="skill-token">SMTP</span>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+<!-- ─── WORKS ─── -->
+<section id="works">
+  <div class="container">
+    <div class="works-header sr">
+      <div class="section-big">SELECTED<br>WOR<span style="color:var(--accent)">KS</span></div>
+      <div class="works-count">04 — Projects<br>( 04 total )</div>
+    </div>
+    <div class="works-list">
+
+      <a href="https://cyanessence.shop" target="_blank" class="work-item sr">
+        <div class="work-thumb">
+          <img id="proj1Img" src="cyanessence.png" alt="CyanEssence">
+        
+          <div class="work-thumb-overlay"><span>Visit Live →</span></div>
+        </div>
+        <div class="work-info">
+          <div class="work-cats"><span class="work-cat">Django</span><span class="work-cat">React</span><span class="work-cat">AWS EC2</span><span class="work-cat">OpenAI</span><span class="work-cat">Razorpay</span></div>
+          <div class="work-title-big">cyanessence.shop</div>
+          <div class="work-desc">High-performance full-stack e-commerce platform. AI-powered customer support chatbot via OpenAI, Razorpay payment gateway, Google OAuth, NGINX-optimised cloud deployment on AWS EC2.</div>
+        </div>
+        <div class="work-arrow">→</div>
+      </a>
+
+      <div class="work-item sr sr-delay-1" style="cursor:default">
+        <div class="work-thumb">
+          <img id="proj2Img" src="findev.png" alt="Findev">
+         
+          <div class="work-thumb-overlay"><span>View Project →</span></div>
+        </div>
+        <div class="work-info">
+          <div class="work-cats"><span class="work-cat">Django Channels</span><span class="work-cat">WebSockets</span><span class="work-cat">Docker</span><span class="work-cat">Redux</span><span class="work-cat">PostgreSQL</span></div>
+          <div class="work-title-big">Findev</div>
+          <div class="work-desc">Developer networking platform connecting engineers by skill &amp; interest. Real-time messaging via WebSockets, full REST API surface, unit &amp; integration tested backend, Redux state management.</div>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+
+
+      <div class="work-item sr sr-delay-3" style="cursor:default">
+        <div class="work-thumb">
+          <img id="proj4Img" src="clique.png" alt="clique">
+          <div class="ph"><div class="ph-num">03</div><span>Add screenshot</span></div>
+          <div class="work-thumb-overlay"><span>View Project →</span></div>
+        </div>
+        <div class="work-info">
+          <div class="work-cats"><span class="work-cat">React</span><span class="work-cat">REST-api,react</span><span class="work-cat">Tailwind</span></div>
+          <div class="work-title-big">clique</div>
+          <div class="work-desc">Responsive developer community building and project collaboration tool. Shimmer loading states for perceived performance, thorough code-review test coverage.</div>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+
+
+
+
+       <div class="work-item sr sr-delay-2" style="cursor:default">
+        <div class="work-thumb">
+          <div class="ph"><div class="ph-num">04</div></div>
+          <div class="work-thumb-overlay"><span>View Project →</span></div>
+        </div>
+        <div class="work-info">
+          <div class="work-cats"><span class="work-cat">React</span><span class="work-cat">GPT</span><span class="work-cat">TMDb API</span><span class="work-cat">Redux</span><span class="work-cat">Tailwind</span></div>
+          <div class="work-title-big">Netflix GPT</div>
+          <div class="work-desc">AI-powered movie recommendation engine. GPT integration surfaces personalised picks from the TMDb catalogue. Responsive Tailwind UI, clean Redux architecture.</div>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="container">
+    <div class="sr">
+      <div class="tag">05 — Contact</div>
+      <div class="section-big" style="margin-top:1.2rem">LET'S<br>TAL<span style="color:var(--accent)">K.</span></div>
+    </div>
+    <div class="contact-grid">
+      <div class="sr sr-delay-1">
+        <p class="contact-blurb">Open to full-time roles, freelance projects, and interesting collaborations. I respond within 24 hours.</p>
+        <div class="contact-list">
+          <a href="mailto:akhilh.dev@gmail.com" class="contact-row">
+            <span class="contact-row-label">Email</span>
+            <span class="contact-row-val">akhilh.dev@gmail.com</span>
+            <span class="contact-row-arr">→</span>
+          </a>
+          <a href="tel:+918590541450" class="contact-row">
+            <span class="contact-row-label">Phone</span>
+            <span class="contact-row-val">+91 8590541450</span>
+            <span class="contact-row-arr">→</span>
+          </a>
+          <a href="https://github.com/Akhil-h36" target="_blank" class="contact-row">
+            <span class="contact-row-label">GitHub</span>
+            <span class="contact-row-val">Akhil-h36</span>
+            <span class="contact-row-arr">→</span>
+          </a>
+          <a href="https://linkedin.com/in/akhil-h-3284b0277/" target="_blank" class="contact-row">
+            <span class="contact-row-label">LinkedIn</span>
+            <span class="contact-row-val">akhil-h-3284b0277</span>
+            <span class="contact-row-arr">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="sr sr-delay-2">
+        <!--
+          EMAIL SETUP — EmailJS (free):
+          1. emailjs.com → create account
+          2. Add Gmail service → copy Service ID
+          3. Create template (fields: from_name, reply_to, subject, message)
+          4. Copy Template ID + Public Key
+          5. Replace the three YOUR_* values below
+        -->
+        <div class="form-wrap">
+          <div class="form-title">Send a message</div>
+          <div class="form-row2">
+            <div class="form-field">
+              <label>Name</label>
+              <input type="text" id="fname" placeholder="Your name">
+            </div>
+            <div class="form-field">
+              <label>Email</label>
+              <input type="email" id="femail" placeholder="your@email.com">
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Subject</label>
+            <input type="text" id="fsubject" placeholder="What's on your mind?">
+          </div>
+          <div class="form-field">
+            <label>Message</label>
+            <textarea id="fmessage" placeholder="Tell me about your project or opportunity..."></textarea>
+          </div>
+          <div id="fstatus" class="form-status"></div>
+          <button class="btn-fill" onclick="sendMsg()" id="fsend" style="margin-top:0.5rem">Send Message →</button>
+        </div>
+        <p style="font-family:'Geist Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:0.8rem;line-height:1.6;">⚙ Wire up EmailJS (free) to activate — see comment above in source.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AKHIL H</div>
+  <div class="footer-copy">© 2025 — Full Stack Developer — Kerala, India</div>
+  <div class="footer-links">
+    <a href="mailto:akhilh.dev@gmail.com">Email</a>
+    <a href="https://github.com/Akhil-h36" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/akhil-h-3284b0277/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+emailjs.init("LlFMtAPmWRp_toHre");
+// CURSOR
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+(function animRing() { rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button,[class*="work-item"],[class*="skill-cell"]').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.classList.add('hover'); ring.classList.add('hover'); });
+  el.addEventListener('mouseleave', () => { cur.classList.remove('hover'); ring.classList.remove('hover'); });
+});
+
+// NAV INDEX
+const secs = ['home','about','education','skills','works','contact'];
+const labels = ['01 / HOME','02 / ABOUT','03 / EDUCATION','04 / SKILLS','05 / WORKS','06 / CONTACT'];
+const idx = document.getElementById('sectionIndex');
+const io2 = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { const i = secs.indexOf(e.target.id); if(i>=0) idx.textContent = labels[i]; }});
+}, { threshold: 0.4 });
+secs.forEach(id => { const el = document.getElementById(id); if(el) io2.observe(el); });
+
+// SCROLL REVEAL
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.sr').forEach(el => io.observe(el));
+
+// PHOTO SHOW
+function tryPhoto(id) {
+  const img = document.getElementById(id);
+  if (!img || !img.src || img.src === window.location.href) return;
+  img.style.display = 'block';
+  const ph = img.nextElementSibling;
+  if (ph && ph.classList.contains('ph')) ph.style.display = 'none';
+}
+['heroImg','aboutImg','proj1Img','proj2Img','proj3Img','proj4Img'].forEach(tryPhoto);
+
+// EMAIL SEND
+async function sendMsg() {
+  const btn = document.getElementById('fsend');
+  const st = document.getElementById('fstatus');
+  const name = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const msg = document.getElementById('fmessage').value.trim();
+  if (!name || !email || !msg) { st.textContent = '⚠ Please fill in all required fields.'; st.className = 'form-status err'; return; }
+  btn.textContent = 'Sending...'; btn.style.opacity = '.6';
+  try {
+    await emailjs.send('service_tqvm6hg','template_wfc8zyt',{
+      from_name: name, reply_to: email,
+      subject: document.getElementById('fsubject').value || 'Portfolio Contact',
+      message: msg, to_email: 'akhilh.dev@gmail.com'
+    });
+    st.textContent = '✓ Message sent — I\'ll get back to you soon.'; st.className = 'form-status ok';
+    ['fname','femail','fsubject','fmessage'].forEach(id => document.getElementById(id).value = '');
+  } catch(e) {
+    st.textContent = '✗ Failed to send — please email akhilh.dev@gmail.com directly.'; st.className = 'form-status err';
+  }
+  btn.textContent = 'Send Message →'; btn.style.opacity = '1';
+}
+</script>
+</body>
+</html>
